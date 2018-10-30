@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/blackYellow"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:background="@color/lightGreen"
+        android:textColor="@color/offWhite"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:text="Ingredients"
+        />
+
+    <TextView
+        android:id="@+id/ingredient_tv"
+        android:layout_width="match_parent"
+        android:layout_margin="7dp"
+        android:textColor="@color/offWhiteRed"
+        android:layout_height="wrap_content"
+        tools:text="Ingrdient 1"
+        />
+        </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_select"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        />
+
+</LinearLayout>
