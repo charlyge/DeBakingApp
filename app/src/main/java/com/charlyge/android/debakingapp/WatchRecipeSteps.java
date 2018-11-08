@@ -14,7 +14,7 @@ import static com.charlyge.android.debakingapp.MainActivity.STEPS_KEY;
 import static com.charlyge.android.debakingapp.fragments.SelectRecipeDetailFragment.ADAPTER_POSITION;
 
 public class WatchRecipeSteps extends AppCompatActivity {
-    ArrayList<Steps> stepsArrayList;
+    private ArrayList<Steps> stepsArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,13 @@ public class WatchRecipeSteps extends AppCompatActivity {
             watchRecipeStepsFragment.setStepsArrayList(stepsArrayList);
 
         }
+
         if(intent.hasExtra(ADAPTER_POSITION)){
             int AdapterPosition = intent.getIntExtra(ADAPTER_POSITION,9);
             watchRecipeStepsFragment.setAdapterPosition(AdapterPosition);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.watch_recipe_frag_container,watchRecipeStepsFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.watch_recipe_frag_container,watchRecipeStepsFragment).commit();
     }
 }

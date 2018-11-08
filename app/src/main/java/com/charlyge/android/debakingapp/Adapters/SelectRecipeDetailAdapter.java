@@ -11,14 +11,16 @@ import android.widget.TextView;
 
 import com.charlyge.android.debakingapp.R;
 import com.charlyge.android.debakingapp.model.Steps;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SelectRecipeDetailAdapter extends RecyclerView.Adapter<SelectRecipeDetailAdapter.myViewHolder> {
 
-    private List<Steps> stepsList;
-    private ClickedListener mClickListener;
+    private final List<Steps> stepsList;
+    private final ClickedListener mClickListener;
     public interface ClickedListener{
         void onItemClicked(int AdapterPosition);
     }
@@ -53,20 +55,19 @@ public class SelectRecipeDetailAdapter extends RecyclerView.Adapter<SelectRecipe
     }
 
     class myViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    ImageView thumbNailImag;
-    TextView shortDescriptionTv;
+
+        @BindView(R.id.thumb_nail_img)ImageView thumbNailImag;
+        @BindView(R.id.short_description) TextView shortDescriptionTv;
 
 
-        public myViewHolder(View itemView) {
+        myViewHolder(View itemView) {
             super(itemView);
-            thumbNailImag = itemView.findViewById(R.id.thumb_nail_img);
-            shortDescriptionTv = itemView.findViewById(R.id.short_description);
+            ButterKnife.bind(this,itemView);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            Steps steps = stepsList.get(getAdapterPosition());
             mClickListener.onItemClicked(getAdapterPosition());
         }
     }

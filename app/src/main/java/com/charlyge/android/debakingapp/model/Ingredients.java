@@ -1,20 +1,22 @@
 package com.charlyge.android.debakingapp.model;
 
-public class Ingredients {
-    private int quantity;
+import java.io.Serializable;
+
+public class Ingredients implements Serializable {
+    private Float quantity;
     private String measure;
     private String ingredient;
 
 
     public Ingredients(){}
 
-    public Ingredients(int quantity, String measure,String ingredient){
+    public Ingredients(Float quantity, String measure,String ingredient){
         this.ingredient =ingredient;
         this.measure = measure;
         this.quantity = quantity;
 
     }
-    public int getQuantity() {
+    public Float getQuantity() {
         return quantity;
     }
 
@@ -30,7 +32,7 @@ public class Ingredients {
         this.measure = measure;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Float quantity) {
         this.quantity = quantity;
     }
 

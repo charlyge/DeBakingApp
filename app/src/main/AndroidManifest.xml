@@ -3,6 +3,7 @@
     package="com.charlyge.android.debakingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +20,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectRecipeDetailViewActivity" />
-        <activity android:name=".WatchRecipeSteps"></activity>
+        <activity android:name=".WatchRecipeSteps" />
+
+        <receiver android:name=".AppWidget.BakingAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_info" />
+        </receiver>
+        <service android:name=".AppWidget.WidgetService" />
     </application>
 
 </manifest>
