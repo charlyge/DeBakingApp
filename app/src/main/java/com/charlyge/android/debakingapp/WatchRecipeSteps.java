@@ -14,13 +14,20 @@ import static com.charlyge.android.debakingapp.RecipesActivity.STEPS_KEY;
 import static com.charlyge.android.debakingapp.fragments.SelectRecipeDetailFragment.ADAPTER_POSITION;
 
 public class WatchRecipeSteps extends AppCompatActivity {
+    private final String FRAGMENT_TAG = "myfragmenttag";
     private ArrayList<Steps> stepsArrayList;
-
+    private WatchRecipeStepsFragment watchRecipeStepsFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_recipe_step);
-        WatchRecipeStepsFragment watchRecipeStepsFragment = new WatchRecipeStepsFragment();
+        if(savedInstanceState!=null){
+            watchRecipeStepsFragment = (WatchRecipeStepsFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+        }
+        else if(watchRecipeStepsFragment==null) {
+            watchRecipeStepsFragment = new WatchRecipeStepsFragment();
+        }
+        watchRecipeStepsFragment = new WatchRecipeStepsFragment();
         Intent intent = getIntent();
 
         if(intent.hasExtra(STEPS_KEY)){
@@ -34,7 +41,9 @@ public class WatchRecipeSteps extends AppCompatActivity {
             watchRecipeStepsFragment.setAdapterPosition(AdapterPosition);
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.watch_recipe_frag_container,watchRecipeStepsFragment).commit();
+        if(!watchRecipeStepsFragment.isInLayout()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.watch_recipe_frag_container,watchRecipeStepsFragment,FRAGMENT_TAG).commit();
+        }
+
     }
 }

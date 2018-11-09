@@ -78,25 +78,25 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
     }
 
     private void makeNetworkConection() {
-     NetworkService.getInstance().getNetworkCallbacks().getRecipe().enqueue(new Callback<ArrayList<Recipes>>() {
-         @Override
-         public void onResponse(@NonNull Call<ArrayList<Recipes>> call, @NonNull Response<ArrayList<Recipes>> response) {
-             progressBar.setVisibility(View.GONE);
-             errorTv.setVisibility(View.GONE);
-             retry.setVisibility(View.GONE);
-             recipesList = response.body();
+        NetworkService.getInstance().getNetworkCallbacks().getRecipe().enqueue(new Callback<ArrayList<Recipes>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Recipes>> call, @NonNull Response<ArrayList<Recipes>> response) {
+                progressBar.setVisibility(View.GONE);
+                errorTv.setVisibility(View.GONE);
+                retry.setVisibility(View.GONE);
+                recipesList = response.body();
 
-             recipesAdapter.setRecipesList(recipesList);
-         }
+                recipesAdapter.setRecipesList(recipesList);
+            }
 
-         @Override
-         public void onFailure(@NonNull Call<ArrayList<Recipes>> call, @NonNull Throwable t) {
-             progressBar.setVisibility(View.GONE);
-             retry.setVisibility(View.VISIBLE);
-             Toast.makeText(RecipesActivity.this,"An Error Occurred " + t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Recipes>> call, @NonNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                retry.setVisibility(View.VISIBLE);
+                Toast.makeText(RecipesActivity.this,"An Error Occurred " + t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 
-         }
-     });
+            }
+        });
     }
 
 

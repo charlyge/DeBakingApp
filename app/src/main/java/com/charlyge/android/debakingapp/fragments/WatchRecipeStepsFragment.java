@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.charlyge.android.debakingapp.R;
@@ -31,12 +32,15 @@ import butterknife.ButterKnife;
 
 
 public class WatchRecipeStepsFragment extends Fragment {
-
+    private boolean istwoPane;
+    private static final String ADAPTER_POSITION_KEY = "adapetetr";
     private SimpleExoPlayer player;
     private List<Steps> stepsList;
 
 
     private int adapterPosition;
+    @BindView(R.id.no_video)
+    ImageView noVideoImage;
     @BindView(R.id.video_view)
     PlayerView playerView;
     @BindView(R.id.exo_next_bt)
@@ -46,6 +50,11 @@ public class WatchRecipeStepsFragment extends Fragment {
     @BindView(R.id.full_description)
     TextView fullDescriptionTv;
     String videoUrl;
+
+    public void setIsIstwoPane(boolean istwoPane) {
+        this.istwoPane=istwoPane;
+
+    }
 
     public void setAdapterPosition(int adapterPosition) {
         this.adapterPosition = adapterPosition;
@@ -63,6 +72,7 @@ public class WatchRecipeStepsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt(ADAPTER_POSITION_KEY,adapterPosition);
     }
 
     @Override
@@ -71,16 +81,30 @@ public class WatchRecipeStepsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_watch_recipe_steps, container, false);
         ButterKnife.bind(this, view);
+        noVideoImage.setVisibility(View.GONE);
+        if(savedInstanceState!=null){
 
+            adapterPosition = savedInstanceState.getInt(ADAPTER_POSITION_KEY);
+        }
         if (stepsList != null) {
             fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
             videoUrl = stepsList.get(adapterPosition).getVideoURL();
             Log.i("videoUrl", videoUrl);
             if (videoUrl != null) {
+                playerView.setVisibility(View.VISIBLE);
+                noVideoImage.setVisibility(View.GONE);
                 initializePlayer();
             }
-        }
+            else {
+                playerView.setVisibility(View.GONE);
+                noVideoImage.setVisibility(View.VISIBLE);
 
+            }
+        }
+        if(istwoPane){
+            bt_next.setVisibility(View.GONE);
+            bt_prev.setVisibility(View.GONE);
+        }
 
         adapterPosition++;
 
@@ -88,29 +112,29 @@ public class WatchRecipeStepsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // if(adapterPosition>=0){
-                if (stepsList.size() - 1 >= adapterPosition) {
+                if ((stepsList.size() - 1 >= adapterPosition) && (adapterPosition !=-1)) {
                     Log.i("Position", "Entering next bt is " + adapterPosition);
-                    Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                    // Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
                     releasePlayer();
                     videoUrl = stepsList.get(adapterPosition).getVideoURL();
                     initializePlayer();
 
                     fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
                     adapterPosition++;
-                    Log.i("Position", "else prev bt is " + adapterPosition);
+                    Log.i("Position", "else next bt is " + adapterPosition);
                 }
 
                 //   }
 
                 else {
-                    Log.i("Position", "else prev bt is " + adapterPosition);
+                    Log.i("Position", "else next bt is " + adapterPosition);
                     adapterPosition = 0;
                     fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
                     releasePlayer();
                     initializePlayer();
                     adapterPosition++;
                     Log.i("Position", "in Else next bt is " + adapterPosition);
-                    Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                    // Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
                     Log.i("Position", "else next bt is " + adapterPosition);
                 }
 
@@ -122,22 +146,23 @@ public class WatchRecipeStepsFragment extends Fragment {
         bt_prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (adapterPosition >= 0) {
-                    if (stepsList.size() - 1 >= adapterPosition) {
-                        Log.i("Position", "Entering previous bt is " + adapterPosition);
-                        Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
-                        releasePlayer();
-                        videoUrl = stepsList.get(adapterPosition).getVideoURL();
-                        initializePlayer();
 
-                        fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
-                        adapterPosition--;
-                        Log.i("Position", "else prev bt is " + adapterPosition);
-                    }
-                } else {
+                if ((stepsList.size() - 1 >= adapterPosition) && (adapterPosition !=-1)) {
+                    // adapterPosition--;
+                    Log.i("Position", "Entering previous bt is " + adapterPosition);
+                    // Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                    releasePlayer();
+                    videoUrl = stepsList.get(adapterPosition).getVideoURL();
+                    initializePlayer();
+
+                    fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
+                    adapterPosition--;
+                    Log.i("Position", "else prev bt is " + adapterPosition);
+                }
+                else {
                     adapterPosition = stepsList.size() - 1;
                     Log.i("Position", "else prev bt is " + adapterPosition);
-                    Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                    //  Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
                     fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
                     releasePlayer();
                     initializePlayer();
@@ -186,7 +211,8 @@ public class WatchRecipeStepsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 23) {
+        if (Util.SDK_INT <= 23 && stepsList!=null) {
+            noVideoImage.setVisibility(View.GONE);
             releasePlayer();
         }
     }
@@ -217,7 +243,7 @@ public class WatchRecipeStepsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > 23 && stepsList!=null) {
             initializePlayer();
         }
     }
@@ -225,7 +251,7 @@ public class WatchRecipeStepsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (Util.SDK_INT <= 23 || player == null) {
+        if (Util.SDK_INT <= 23 && stepsList!=null) {
             initializePlayer();
         }
     }

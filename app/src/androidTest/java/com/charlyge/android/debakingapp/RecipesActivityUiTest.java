@@ -6,6 +6,8 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.charlyge.android.debakingapp.fragments.SelectRecipeDetailFragment;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,9 +29,9 @@ public class RecipesActivityUiTest {
     public void recycler_viewOnItemClickOpens_SelectRecipeDetailViewActivity(){
 
         onView(withId(R.id.recycler_view_main))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        onView(withId(R.id.select_recipe_detail_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.ingredient_tv)).check(matches(isDisplayed()));
 
     }
 }
