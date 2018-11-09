@@ -22,7 +22,6 @@ import com.charlyge.android.debakingapp.R;
 import com.charlyge.android.debakingapp.WatchRecipeSteps;
 import com.charlyge.android.debakingapp.model.Ingredients;
 import com.charlyge.android.debakingapp.model.Steps;
-import com.google.gson.GsonBuilder;
 
 import java.io.Serializable;
 import java.util.List;
@@ -31,8 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.charlyge.android.debakingapp.MainActivity.INGREDIENT_KEY;
-import static com.charlyge.android.debakingapp.MainActivity.STEPS_KEY;
+import static com.charlyge.android.debakingapp.RecipesActivity.INGREDIENT_KEY;
+import static com.charlyge.android.debakingapp.RecipesActivity.STEPS_KEY;
 
 public class SelectRecipeDetailFragment extends Fragment implements SelectRecipeDetailAdapter.ClickedListener {
     private List<Steps> stepsList;

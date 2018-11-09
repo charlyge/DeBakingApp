@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import java.util.List;
 
@@ -31,17 +32,19 @@ import butterknife.ButterKnife;
 
 public class WatchRecipeStepsFragment extends Fragment {
 
-   private SimpleExoPlayer player;
-   private List<Steps> stepsList;
-
+    private SimpleExoPlayer player;
+    private List<Steps> stepsList;
 
 
     private int adapterPosition;
-   @BindView(R.id.video_view)
-   PlayerView playerView;
-    @BindView(R.id.exo_next_bt) Button bt_next;
-    @BindView(R.id.exo_prev_bt) Button bt_prev;
-    @BindView(R.id.full_description)TextView fullDescriptionTv;
+    @BindView(R.id.video_view)
+    PlayerView playerView;
+    @BindView(R.id.exo_next_bt)
+    Button bt_next;
+    @BindView(R.id.exo_prev_bt)
+    Button bt_prev;
+    @BindView(R.id.full_description)
+    TextView fullDescriptionTv;
     String videoUrl;
 
     public void setAdapterPosition(int adapterPosition) {
@@ -66,84 +69,89 @@ public class WatchRecipeStepsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-     View view = inflater.inflate(R.layout.fragment_watch_recipe_steps, container, false);
-     ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_watch_recipe_steps, container, false);
+        ButterKnife.bind(this, view);
 
-     if(stepsList!=null){
-         fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
-         videoUrl = stepsList.get(adapterPosition).getVideoURL();
-         Log.i("videoUrl",videoUrl);
-         if(videoUrl != null){
-             initializePlayer();
-         }
-     }
-
+        if (stepsList != null) {
+            fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
+            videoUrl = stepsList.get(adapterPosition).getVideoURL();
+            Log.i("videoUrl", videoUrl);
+            if (videoUrl != null) {
+                initializePlayer();
+            }
+        }
 
 
         adapterPosition++;
 
-      bt_next.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-
-              if(stepsList.size()-1 >= adapterPosition){
-
-                   releasePlayer();
-                   videoUrl = stepsList.get(adapterPosition).getVideoURL();
-                 initializePlayer();
-
-                  fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
-                  adapterPosition++;
-              }
-              else {
-                  adapterPosition = 0;
-                  fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
-                  releasePlayer();
-                  initializePlayer();
-                  adapterPosition++;
-              }
-
-
-          }
-      });
-
-
-        bt_prev.setOnClickListener(new View.OnClickListener() {
+        bt_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(adapterPosition>=0){
-                    if(stepsList.size()-1 >= adapterPosition){
+                // if(adapterPosition>=0){
+                if (stepsList.size() - 1 >= adapterPosition) {
+                    Log.i("Position", "Entering next bt is " + adapterPosition);
+                    Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                    releasePlayer();
+                    videoUrl = stepsList.get(adapterPosition).getVideoURL();
+                    initializePlayer();
 
-                        releasePlayer();
-                        videoUrl = stepsList.get(adapterPosition).getVideoURL();
-                        initializePlayer();
-
-                        fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
-                        adapterPosition--;
-                    }
+                    fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
+                    adapterPosition++;
+                    Log.i("Position", "else prev bt is " + adapterPosition);
                 }
 
+                //   }
+
                 else {
-                    adapterPosition = 12;
+                    Log.i("Position", "else prev bt is " + adapterPosition);
+                    adapterPosition = 0;
                     fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
                     releasePlayer();
                     initializePlayer();
-                    adapterPosition--;
+                    adapterPosition++;
+                    Log.i("Position", "in Else next bt is " + adapterPosition);
+                    Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                    Log.i("Position", "else next bt is " + adapterPosition);
                 }
 
 
             }
         });
 
-      return view;
-    }
+
+        bt_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (adapterPosition >= 0) {
+                    if (stepsList.size() - 1 >= adapterPosition) {
+                        Log.i("Position", "Entering previous bt is " + adapterPosition);
+                        Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                        releasePlayer();
+                        videoUrl = stepsList.get(adapterPosition).getVideoURL();
+                        initializePlayer();
+
+                        fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
+                        adapterPosition--;
+                        Log.i("Position", "else prev bt is " + adapterPosition);
+                    }
+                } else {
+                    adapterPosition = stepsList.size() - 1;
+                    Log.i("Position", "else prev bt is " + adapterPosition);
+                    Log.i("Position", "STEPLISTSIZE  is " + stepsList.size());
+                    fullDescriptionTv.setText((stepsList.get(adapterPosition).getDescription()));
+                    releasePlayer();
+                    initializePlayer();
+                    adapterPosition--;
+                    Log.i("Position", "else prev bt is " + adapterPosition);
+                }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-       releasePlayer();
+            }
+        });
+
+        return view;
     }
+
 
     private void initializePlayer() {
         player = ExoPlayerFactory.newSimpleInstance(
@@ -165,13 +173,60 @@ public class WatchRecipeStepsFragment extends Fragment {
                 createMediaSource(uri);
     }
 
-private void releasePlayer(){
-        if(player!=null){
+    private void releasePlayer() {
+        if (player != null) {
             player.stop();
             player.release();
         }
 
-    player = null;
+        player = null;
 
-}
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (player != null) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || player == null) {
+            initializePlayer();
+        }
+    }
 }

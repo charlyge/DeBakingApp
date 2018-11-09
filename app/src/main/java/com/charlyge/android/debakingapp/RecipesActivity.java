@@ -32,12 +32,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RecipesAdapter.ItemClickListener {
+public class RecipesActivity extends AppCompatActivity implements RecipesAdapter.ItemClickListener {
     private ArrayList<Recipes> recipesList;
     private RecipesAdapter recipesAdapter;
     public static final String STEPS_KEY = "recipes";
     public static final String INGREDIENT_KEY = "Ingredient_key";
-    private String TAG = MainActivity.class.getSimpleName();
+    private String TAG = RecipesActivity.class.getSimpleName();
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.recycler_view_main) RecyclerView recyclerView;
     @BindView(R.id.error_tv) TextView errorTv;
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.It
          public void onFailure(@NonNull Call<ArrayList<Recipes>> call, @NonNull Throwable t) {
              progressBar.setVisibility(View.GONE);
              retry.setVisibility(View.VISIBLE);
-             Toast.makeText(MainActivity.this,"An Error Occurred " + t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+             Toast.makeText(RecipesActivity.this,"An Error Occurred " + t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 
          }
      });

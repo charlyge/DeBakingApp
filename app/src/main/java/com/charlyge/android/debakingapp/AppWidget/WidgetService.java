@@ -8,11 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
-import com.charlyge.android.debakingapp.model.Ingredients;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import static com.charlyge.android.debakingapp.MainActivity.INGREDIENT_KEY;
+import static com.charlyge.android.debakingapp.RecipesActivity.INGREDIENT_KEY;
 import static com.charlyge.android.debakingapp.fragments.SelectRecipeDetailFragment.MY_PREFERENCE;
 
 public class WidgetService extends IntentService {

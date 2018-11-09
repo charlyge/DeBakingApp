@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.charlyge.android.debakingapp.MainActivity;
+import com.charlyge.android.debakingapp.RecipesActivity;
 import com.charlyge.android.debakingapp.R;
 
 /**
@@ -21,7 +21,7 @@ public class BakingAppWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
         views.setTextViewText(R.id.appwidget_text, ingredients);
-        Intent intent = new Intent(context,MainActivity.class);
+        Intent intent = new Intent(context,RecipesActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
         views.setOnClickPendingIntent(R.id.appwidget_text,pendingIntent);
         // Instruct the widget manager to update the widget

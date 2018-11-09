@@ -10,7 +10,7 @@ import com.charlyge.android.debakingapp.model.Steps;
 
 import java.util.ArrayList;
 
-import static com.charlyge.android.debakingapp.MainActivity.STEPS_KEY;
+import static com.charlyge.android.debakingapp.RecipesActivity.STEPS_KEY;
 import static com.charlyge.android.debakingapp.fragments.SelectRecipeDetailFragment.ADAPTER_POSITION;
 
 public class WatchRecipeSteps extends AppCompatActivity {

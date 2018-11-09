@@ -12,7 +12,7 @@
     android:id="@+id/recycler_view_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    tools:context=".RecipesActivity">
 
 
 </android.support.v7.widget.RecyclerView>

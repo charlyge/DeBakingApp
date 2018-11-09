@@ -50,6 +50,9 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.myViewHo
       if(!image.isEmpty()){
           Picasso.get().load(image).error(R.drawable.recipes).placeholder(R.drawable.recipes).into(holder.imageView);
       }
+      else{
+          holder.imageView.setImageResource(R.drawable.recipes);
+      }
 
 
 
